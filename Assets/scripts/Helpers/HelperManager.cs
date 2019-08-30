@@ -12,6 +12,7 @@ static class HelperManager
         {Color.PURPLE, atomBasePath + "Atom_purple" },
         {Color.RED, atomBasePath + "Atom_red" },
     };
+
     public static T FindComponentInChildWithTag<T>(this GameObject parent, string tag) where T : Component
     {
         Transform t = parent.transform;
@@ -23,5 +24,9 @@ static class HelperManager
             }
         }
         return null;
+    }
+    public static GameObject getParentGameObject(this GameObject child)
+    {
+        return child.transform.parent.gameObject;
     }
 }
