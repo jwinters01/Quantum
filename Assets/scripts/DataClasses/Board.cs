@@ -1,28 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class Board
 {
     private HashSet<Atom> atoms;
     private Tile[,] tileMap;
     private HashSet<Tile> tiles;
+    private HashSet<Tile> unoccupiedTiles;
 
     public Board(Tile[,] tileMap)
     {
         this.tileMap = tileMap;
         this.tiles = new HashSet<Tile>();
+        this.unoccupiedTiles = new HashSet<Tile>();
         fillTiles();
         this.atoms = new HashSet<Atom>();
     }
-    public bool addAtom(Tile location, Color color)
+
+    public void addAtom(Atom newAtom, Tile tile)
     {
-        if (tiles.Contains(location) && location.isEmpty())
+        if (!tiles.Contains(tile))
         {
-            Atom newAtom = new Atom(location, color);
-            location.setAtom(ref newAtom);
-            atoms.Add(newAtom);
-            //
+            throw new Exception("Adding atom to tile that doesn't exist on board!");
         }
-        return false;
+        tile.setAtom(ref newAtom);
+        atoms.Add(newAtom);
+        unoccupiedTiles.Remove(tile);
+    }
+
+    public List<Tile> getUnoccupiedTiles()
+    {
+        return unoccupiedTiles.ToList();
+    }
+
+    public Atom removeAtom(Tile location)
+    {
+        if (unoccupiedTiles.Contains(location))
+        {
+            return null;
+        }
+        Atom removedAtom = location.removeAtom();
+        atoms.Remove(removedAtom);
+        unoccupiedTiles.Add(location);
+        return removedAtom;
     }
 
 
@@ -33,6 +54,7 @@ class Board
             for(int j = 0; j < tileMap.GetLength(1); j++)
             {
                 tiles.Add(tileMap[i, j]);
+                unoccupiedTiles.Add(tileMap[i, j]);
             }
         }
     }

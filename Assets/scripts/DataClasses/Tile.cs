@@ -20,8 +20,20 @@ class Tile
         this.atom = a;
     }
 
+    public GameObject getGameObject()
+    {
+        return this.tileObject;
+    }
+
     public bool isEmpty()
     {
         return atom == null;
+    }
+
+    public Atom removeAtom()
+    {
+        Atom result = this.atom;
+        this.atom = null;
+        return result;
     }
 }

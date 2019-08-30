@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class BoardManager
+class BoardManager
 {
     private GameObject tileInstance;
     public GameObject tilesContainer;
@@ -30,6 +30,12 @@ public class BoardManager
         }
         this.board = new Board(tiles);
     }
+
+    public ref Board getBoardRef()
+    {
+        return ref this.board;
+    }
+
     private void buildRow(int rowNumber, Vector3 rowStartPoint)
     {
         for(int i = 0; i < boardSize; i++)

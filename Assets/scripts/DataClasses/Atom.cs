@@ -1,10 +1,15 @@
-﻿class Atom
+﻿using UnityEngine;
+
+class Atom
 {
-    public Tile position;
+    private Tile position;
     private Color color;
-    public Atom(Tile position, Color color)
+    private GameObject atomObject;
+
+    public Atom(Tile position, Color color, GameObject atomObject)
     {
         this.position = position;
         this.color = color;
+        this.atomObject = atomObject;
     }
 }
