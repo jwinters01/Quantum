@@ -26,21 +26,25 @@ class M_GameManager : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(checkForAtomHit(ray, out hit))
+            Physics.Raycast(ray, out hit);
+            if(checkForAtomHit(ray, hit))
             {
-                Debug.Log("Atom clicked.");
+                atomManager.handleAtomSelection(hit.collider.gameObject.getParentGameObject());
             }
-            else
+            else if (checkForUnoccupiedTileHit(hit) && atomManager.hasSelected())
             {
-                Debug.Log("clicked " + hit.collider.gameObject);
+                atomManager.handleMove(hit.collider.gameObject.getParentGameObject());
             }
         }
     }
 
-    private bool checkForAtomHit(Ray ray, out RaycastHit hit)
+    private bool checkForAtomHit(Ray ray, RaycastHit hit)
     {
-        return Physics.Raycast(ray, out hit, 100f)
-            && hit.collider.gameObject.getParentGameObject().CompareTag("atom");
+        return hit.collider.gameObject.getParentGameObject().CompareTag("atom");
+    }
+    private bool checkForUnoccupiedTileHit(RaycastHit hit)
+    {
+        return hit.collider.gameObject.getParentGameObject().CompareTag("tile");
     }
 
     private void initializeAtomInstances()

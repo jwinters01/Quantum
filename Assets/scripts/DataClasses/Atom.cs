@@ -12,4 +12,9 @@ class Atom
         this.color = color;
         this.atomObject = atomObject;
     }
+
+    public GameObject GetGameObject()
+    {
+        return this.atomObject;
+    }
 }

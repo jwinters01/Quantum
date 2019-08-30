@@ -7,6 +7,7 @@ class AtomManager
     private Board board;
     private GameObject boardContainer;
     private Dictionary<Color, GameObject> atomTypes;
+    private Atom selectedAtom = null;
 
     public AtomManager(ref Board b, Dictionary<Color, GameObject> atomTypes, GameObject boardContainer)
     {
@@ -28,10 +29,35 @@ class AtomManager
         }
     }
 
+    public bool hasSelected()
+    {
+        return selectedAtom != null;
+    }
+
     private Tile getRandomUnoccupiedTile()
     {
         List<Tile> candidateTiles = board.getUnoccupiedTiles();
         return candidateTiles[UnityEngine.Random.Range(0, candidateTiles.Count)];
+    }
+
+    public void handleAtomSelection(GameObject atom)
+    {
+        selectedAtom = board.getAtom(atom);
+    }
+
+    public void handleMove(GameObject tile)
+    {
+        Tile t = board.getTile(tile);
+        if (this.hasSelected())
+        {
+            moveAtom(selectedAtom, tile);
+            t.acceptAtom(selectedAtom);
+        }
+    }
+
+    private void moveAtom(Atom a, GameObject t)
+    {
+
     }
 
     private Color getRandomColor()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 class Board
 {
@@ -8,9 +9,13 @@ class Board
     private Tile[,] tileMap;
     private HashSet<Tile> tiles;
     private HashSet<Tile> unoccupiedTiles;
+    private Dictionary<GameObject, Atom> atomObjectMap;
+    private Dictionary<GameObject, Tile> tileObjectMap;
 
     public Board(Tile[,] tileMap)
     {
+        this.atomObjectMap = new Dictionary<GameObject, Atom>();
+        this.tileObjectMap = new Dictionary<GameObject, Tile>();
         this.tileMap = tileMap;
         this.tiles = new HashSet<Tile>();
         this.unoccupiedTiles = new HashSet<Tile>();
@@ -27,6 +32,7 @@ class Board
         tile.setAtom(ref newAtom);
         atoms.Add(newAtom);
         unoccupiedTiles.Remove(tile);
+        atomObjectMap.Add(newAtom.GetGameObject(), newAtom);
     }
 
     public List<Tile> getUnoccupiedTiles()
@@ -46,6 +52,15 @@ class Board
         return removedAtom;
     }
 
+    public Tile getTile(GameObject tile)
+    {
+        return tileObjectMap[tile];
+    }
+
+    public Atom getAtom(GameObject atom)
+    {
+        return atomObjectMap[atom];
+    }
 
     private void fillTiles()
     {
@@ -55,6 +70,7 @@ class Board
             {
                 tiles.Add(tileMap[i, j]);
                 unoccupiedTiles.Add(tileMap[i, j]);
+                tileObjectMap.Add(tileMap[i, j].getGameObject(), tileMap[i, j]);
             }
         }
     }

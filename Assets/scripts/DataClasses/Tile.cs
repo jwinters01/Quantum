@@ -36,4 +36,10 @@ class Tile
         this.atom = null;
         return result;
     }
+
+    internal void acceptAtom(Atom selectedAtom)
+    {
+        this.atom = selectedAtom;
+        selectedAtom.GetGameObject().transform.SetParent(this.tileObject.transform, false);
+    }
 }
