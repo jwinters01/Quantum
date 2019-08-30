@@ -33,7 +33,7 @@ class M_GameManager : MonoBehaviour
             }
             else if (checkForUnoccupiedTileHit(hit) && atomManager.hasSelected())
             {
-                atomManager.handleMove(hit.collider.gameObject.getParentGameObject());
+                makeTurn(hit);
             }
         }
     }
@@ -46,7 +46,12 @@ class M_GameManager : MonoBehaviour
     {
         return hit.collider.gameObject.getParentGameObject().CompareTag("tile");
     }
-
+    private void makeTurn(RaycastHit hit)
+    {
+        turnNumber++;
+        atomManager.handleMove(hit.collider.gameObject.getParentGameObject());
+        Debug.Log($"Turn {turnNumber} complete.");
+    }
     private void initializeAtomInstances()
     {
         atomInstances = new Dictionary<Color, GameObject>();

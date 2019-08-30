@@ -23,7 +23,7 @@ class AtomManager
         {
             Color currentColor = getRandomColor();
             Tile currentTile = getRandomUnoccupiedTile();
-            GameObject atomObject = GameObject.Instantiate(atomTypes[currentColor], currentTile.getGameObject().transform.position, Quaternion.identity);
+            GameObject atomObject = GameObject.Instantiate(atomTypes[currentColor], currentTile.getGameObject().transform);
             Atom newAtom = new Atom(currentTile, currentColor, atomObject);
             board.addAtom(newAtom, currentTile);
         }
@@ -42,7 +42,17 @@ class AtomManager
 
     public void handleAtomSelection(GameObject atom)
     {
-        selectedAtom = board.getAtom(atom);
+        Atom newSelectedAtom = board.getAtom(atom);
+        if (selectedAtom != null && selectedAtom.Equals(newSelectedAtom))
+        {
+            selectedAtom = null;
+            Debug.Log("Atom deselected.");
+        }
+        else
+        {
+            selectedAtom = newSelectedAtom;
+            Debug.Log("Atom selected.");
+        }
     }
 
     public void handleMove(GameObject tile)
@@ -50,8 +60,11 @@ class AtomManager
         Tile t = board.getTile(tile);
         if (this.hasSelected())
         {
+            selectedAtom.getTile().removeAtom();
             moveAtom(selectedAtom, tile);
             t.acceptAtom(selectedAtom);
+            selectedAtom = null;
+            Debug.Log("Move made. selection cleared.");
         }
     }
 

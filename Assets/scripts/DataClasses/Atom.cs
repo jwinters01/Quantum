@@ -17,4 +17,8 @@ class Atom
     {
         return this.atomObject;
     }
+    public Tile getTile()
+    {
+        return this.position;
+    }
 }
