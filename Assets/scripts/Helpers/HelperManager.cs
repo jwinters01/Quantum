@@ -11,7 +11,6 @@ public static class HelperManager
         {
             if (tr.tag == tag)
             {
-                Debug.Log("Component Found.");
                 return tr.GetComponent<T>();
             }
         }

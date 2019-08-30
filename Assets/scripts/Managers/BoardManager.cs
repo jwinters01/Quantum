@@ -1,40 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(GameObject))]
-public class BoardManager : MonoBehaviour
+
+public class BoardManager
 {
-    public GameObject tileInstance;
+    private GameObject tileInstance;
     public GameObject tilesContainer;
+    private Board board;
+
     public int boardSize;
-    private GameObject[,] tiles;
+    private Tile[,] tiles;
     private Bounds tileBounds;
 
-    void Start()
+
+    public BoardManager(GameObject tilesContainer, GameObject tileInstance)
     {
-        tileBounds = tileInstance.FindComponentInChildWithTag<MeshRenderer>("Visual").bounds;
-        Debug.Log($"Tile Bounds = {tileBounds}");
-        buildBoard();
+        this.tilesContainer = tilesContainer;
+        this.tileInstance = tileInstance;
+        this.tileBounds = tileInstance.FindComponentInChildWithTag<MeshRenderer>("Visual").bounds;
     }
     
-    void Update()
+    public void buildBoard(int boardSize)
     {
-
-    }
-
-    // Helpers
-    private void buildBoard()
-    {
+        this.boardSize = boardSize;
+        this.tiles = new Tile[boardSize, boardSize];
         Vector3 startPoint = getBoardStartPoint();
         for(int i = 0; i < boardSize; i++)
         {
             buildRow(i, getRowStartPoint(i, startPoint));
         }
+        this.board = new Board(tiles);
     }
     private void buildRow(int rowNumber, Vector3 rowStartPoint)
     {
-        Debug.Log($"Row start point = {rowStartPoint}.");
         for(int i = 0; i < boardSize; i++)
         {
             Vector3 currentLocation = new Vector3(
@@ -42,7 +39,8 @@ public class BoardManager : MonoBehaviour
                 rowStartPoint.y,
                 rowStartPoint.z * tileBounds.size.z );
             GameObject obj = GameObject.Instantiate(tileInstance, currentLocation, Quaternion.identity, tilesContainer.transform);
-            //TODO: create Tile class for maining Tile state and storing GameObject
+            Tile t = new Tile(ref obj);
+            tiles[rowNumber, i] = t;
         }
     }
     private Vector3 getBoardStartPoint()
