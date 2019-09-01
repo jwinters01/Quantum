@@ -38,6 +38,10 @@ public class M_GameManager : MonoBehaviour
                 handleHit(hit);
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            atomManager.handleAtomDeselection();
+        }
     }
 
     private void handleHit(RaycastHit hit)

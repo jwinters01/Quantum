@@ -40,19 +40,17 @@ class AtomManager
         return candidateTiles[UnityEngine.Random.Range(0, candidateTiles.Count)];
     }
 
+    internal void handleAtomDeselection()
+    {
+        this.selectedAtom = null;
+        Debug.Log("Atom deselected.");
+    }
+
     public void handleAtomSelection(GameObject atom)
     {
         Atom newSelectedAtom = board.getAtom(atom);
-        if (selectedAtom != null && selectedAtom.Equals(newSelectedAtom))
-        {
-            selectedAtom = null;
-            Debug.Log("Atom deselected.");
-        }
-        else
-        {
-            selectedAtom = newSelectedAtom;
-            Debug.Log("Atom selected.");
-        }
+        selectedAtom = newSelectedAtom;
+        Debug.Log("Atom selected.");
     }
 
     public void handleMove(GameObject tile)
