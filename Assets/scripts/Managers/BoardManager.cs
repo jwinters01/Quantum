@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 class BoardManager
@@ -28,6 +30,10 @@ class BoardManager
         {
             buildRow(i, getRowStartPoint(i, startPoint));
         }
+        for(int i = 0; i < boardSize; i++)
+        {
+            calculateNeighborsForRow(i);
+        }
         this.board = new Board(tiles);
     }
 
@@ -48,6 +54,26 @@ class BoardManager
             Tile t = new Tile(ref obj);
             tiles[rowNumber, i] = t;
         }
+    }
+    private void calculateNeighborsForRow(int row)
+    {
+        for(int col=0; col < boardSize; col++)
+        {
+            Tile currentTile = tiles[row, col];
+            Dictionary<Direction, Tile> currentTileNeighbors = new Dictionary<Direction, Tile>();
+            foreach(Direction d in Enum.GetValues(typeof(Direction)))
+            {
+                int[] indeces = DirectionMethods.getNeighborIndex(row, col, d);
+                currentTileNeighbors[d] = areValid(indeces) ?
+                    tiles[indeces[0], indeces[1]] : null;
+            }
+            currentTile.setNeighbors(currentTileNeighbors);
+        }
+    }
+    public bool areValid(int[] indeces)
+    {
+        return indeces[0] >= 0 && indeces[0] < boardSize
+            && indeces[1] >= 0 && indeces[1] < boardSize;
     }
     private Vector3 getBoardStartPoint()
     {

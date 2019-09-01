@@ -42,4 +42,9 @@ class Tile
         this.atom = selectedAtom;
         selectedAtom.GetGameObject().transform.SetParent(this.tileObject.transform, false);
     }
+
+    internal void setNeighbors(Dictionary<Direction, Tile> neighbors)
+    {
+        this.neighbors = neighbors;
+    }
 }

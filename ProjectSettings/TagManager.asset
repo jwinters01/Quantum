@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Visual
+  - atom
+  - tile
   layers:
   - Default
   - TransparentFX

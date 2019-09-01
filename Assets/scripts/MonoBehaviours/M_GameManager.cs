@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class M_GameManager : MonoBehaviour
+public class M_GameManager : MonoBehaviour
 {
     public GameObject boardContainer = null;
     public GameObject tileInstance = null;
@@ -20,6 +20,7 @@ class M_GameManager : MonoBehaviour
         atomManager = new AtomManager(ref boardManager.getBoardRef(), atomInstances, boardContainer);
         atomManager.spawnAtoms(8);
     }
+
     void FixedUpdate()
     {
         if (Input.GetMouseButtonDown(0))
@@ -27,18 +28,25 @@ class M_GameManager : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
-            if(checkForAtomHit(ray, hit))
+            if (hit.collider != null)
             {
-                atomManager.handleAtomSelection(hit.collider.gameObject.getParentGameObject());
-            }
-            else if (checkForUnoccupiedTileHit(hit) && atomManager.hasSelected())
-            {
-                makeTurn(hit);
+                handleHit(hit);
             }
         }
     }
 
-    private bool checkForAtomHit(Ray ray, RaycastHit hit)
+    private void handleHit(RaycastHit hit)
+    {
+        if (checkForAtomHit(hit))
+        {
+            atomManager.handleAtomSelection(hit.collider.gameObject.getParentGameObject());
+        }
+        else if (checkForUnoccupiedTileHit(hit) && atomManager.hasSelected())
+        {
+            makeTurn(hit);
+        }
+    }
+    private bool checkForAtomHit(RaycastHit hit)
     {
         return hit.collider.gameObject.getParentGameObject().CompareTag("atom");
     }
@@ -56,7 +64,7 @@ class M_GameManager : MonoBehaviour
     {
         atomInstances = new Dictionary<Color, GameObject>();
         foreach(Color c in Enum.GetValues(typeof(Color))){
-            atomInstances[c] = (GameObject)Resources.Load(HelperManager.tileResourcePaths[c]);
+            atomInstances[c] = (GameObject)Resources.Load(ColorMethods.atomResourcePaths[c]);
         }
     }
 }
