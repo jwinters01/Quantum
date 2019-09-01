@@ -23,6 +23,11 @@ public class M_GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+    }
+
+    private void Update()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
