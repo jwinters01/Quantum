@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5475584560668258384}
   m_Layer: 0
-  m_Name: Atom_green
+  m_Name: atom_green
   m_TagString: atom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

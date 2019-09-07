@@ -21,4 +21,8 @@ class Atom
     {
         return this.position;
     }
+    public Color getColor()
+    {
+        return this.color;
+    }
 }

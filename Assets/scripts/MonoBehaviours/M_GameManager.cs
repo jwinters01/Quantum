@@ -9,6 +9,7 @@ public class M_GameManager : MonoBehaviour
 
     private int turnNumber;
     private Dictionary<Color, GameObject> atomInstances;
+    private Dictionary<Color, GameObject> ghostAtomInstances;
     private BoardManager boardManager;
     private AtomManager atomManager;
     void Start()
@@ -17,8 +18,11 @@ public class M_GameManager : MonoBehaviour
         boardManager = new BoardManager(boardContainer, tileInstance);
         boardManager.buildBoard(8);
         initializeAtomInstances();
-        atomManager = new AtomManager(ref boardManager.getBoardRef(), atomInstances, boardContainer);
-        atomManager.spawnAtoms(8);
+        atomManager = new AtomManager(ref boardManager.getBoardRef(), boardContainer);
+        atomManager.addAtomTypes(atomInstances);
+        atomManager.addGhostAtomTypes(ghostAtomInstances);
+        atomManager.spawnInitialAtoms(8);
+        atomManager.setupNextTurn();
     }
 
     void FixedUpdate()
@@ -65,15 +69,22 @@ public class M_GameManager : MonoBehaviour
     }
     private void makeTurn(RaycastHit hit)
     {
-        turnNumber++;
         atomManager.handleMove(hit.collider.gameObject.getParentGameObject());
         Debug.Log($"Turn {turnNumber} complete.");
+        setupNextTurn();
+    }
+    private void setupNextTurn()
+    {
+        atomManager.setupNextTurn();
+        turnNumber++;
     }
     private void initializeAtomInstances()
     {
         atomInstances = new Dictionary<Color, GameObject>();
+        ghostAtomInstances = new Dictionary<Color, GameObject>();
         foreach(Color c in Enum.GetValues(typeof(Color))){
             atomInstances[c] = (GameObject)Resources.Load(ColorMethods.atomResourcePaths[c]);
+            ghostAtomInstances[c] = (GameObject)Resources.Load(ColorMethods.ghostAtomResourcePaths[c]);
         }
     }
 }

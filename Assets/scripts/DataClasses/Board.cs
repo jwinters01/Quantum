@@ -6,6 +6,8 @@ using UnityEngine;
 class Board
 {
     private HashSet<Atom> atoms;
+    private Dictionary<Tile, GhostAtom> ghostOccupiedTiles;
+    private HashSet<GhostAtom> ghostAtoms;
     private Tile[,] tileMap;
     private HashSet<Tile> tiles;
     private HashSet<Tile> unoccupiedTiles;
@@ -18,6 +20,8 @@ class Board
         this.tileObjectMap = new Dictionary<GameObject, Tile>();
         this.tileMap = tileMap;
         this.tiles = new HashSet<Tile>();
+        this.ghostOccupiedTiles = new Dictionary<Tile, GhostAtom>();
+        this.ghostAtoms = new HashSet<GhostAtom>();
         this.unoccupiedTiles = new HashSet<Tile>();
         fillTiles();
         this.atoms = new HashSet<Atom>();
@@ -35,9 +39,9 @@ class Board
         atomObjectMap.Add(newAtom.GetGameObject(), newAtom);
     }
 
-    public List<Tile> getUnoccupiedTiles()
+    public HashSet<Tile> getUnoccupiedTiles()
     {
-        return unoccupiedTiles.ToList();
+        return unoccupiedTiles;
     }
 
     public Atom removeAtom(Tile location)
@@ -73,5 +77,39 @@ class Board
                 tileObjectMap.Add(tileMap[i, j].getGameObject(), tileMap[i, j]);
             }
         }
+    }
+
+    internal void addGhostAtom(ref GhostAtom ghostAtom)
+    {
+        if(!tiles.Contains(ghostAtom.getTile()))
+        {
+            throw new Exception("Tile to add ghost to doesnt exist here!");
+        }
+        ghostAtoms.Add(ghostAtom);
+        ghostOccupiedTiles.Add(ghostAtom.getTile(), ghostAtom);
+    }
+
+    internal void spawnNextAtomWave()
+    {
+        foreach(KeyValuePair<Tile, GhostAtom> pair in ghostOccupiedTiles)
+        {
+            if(unoccupiedTiles.Contains(pair.Key))
+            {
+                Color c = pair.Value.getColor();
+                GameObject atomObject = GameObject.Instantiate(
+                    (GameObject)Resources.Load(ColorMethods.atomResourcePaths[c]),
+                    pair.Key.getGameObject().transform);
+                Atom newAtom = new Atom(pair.Key, c, atomObject);
+                addAtom(newAtom, pair.Key);
+            }
+            ghostAtoms.Remove(pair.Value);
+            GameObject.Destroy(pair.Value.GetGameObject());
+        }
+        ghostOccupiedTiles.Clear();
+    }
+
+    internal HashSet<Tile> getGhostOccupiedTiles()
+    {
+        return new HashSet<Tile>(ghostOccupiedTiles.Keys);
     }
 }

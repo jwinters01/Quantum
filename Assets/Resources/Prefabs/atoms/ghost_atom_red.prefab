@@ -1,20 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!64 &7507181787253798163
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3742469204501125499}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300002, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3, type: 3}
---- !u!1 &8487421303301554505
+--- !u!1 &651813136703042694
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5630434430369338320}
+  - component: {fileID: 5077097433639206402}
   m_Layer: 0
-  m_Name: atom_purple
+  m_Name: ghost_atom_red
   m_TagString: atom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5630434430369338320
+--- !u!4 &5077097433639206402
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8487421303301554505}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 651813136703042694}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3742469204501546331}
+  - {fileID: 6802190664378457173}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3742469204501159899
+--- !u!1001 &6802190664378844885
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 5630434430369338320}
+    m_TransformParent: {fileID: 5077097433639206402}
     m_Modifications:
     - target: {fileID: 100000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3, type: 3}
       propertyPath: m_Name
-      value: atom_visual_purple
+      value: ghost_atom_visual_red
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -119,18 +105,12 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: db2ccf8b6e3017d47804ce7ecbc8570a, type: 2}
+      objectReference: {fileID: 2100000, guid: 5230df02f10172b4ba8e141cb67cf044, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3, type: 3}
---- !u!1 &3742469204501125499 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3742469204501159899}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3742469204501546331 stripped
+--- !u!4 &6802190664378457173 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 6f91e71007b2a0c4cb6b4b73cb7cf9a3,
     type: 3}
-  m_PrefabInstance: {fileID: 3742469204501159899}
+  m_PrefabInstance: {fileID: 6802190664378844885}
   m_PrefabAsset: {fileID: 0}
